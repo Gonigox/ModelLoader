@@ -25,7 +25,7 @@
     <ProjectGuid>{636EB426-ECAF-4E3F-ACE9-9DF1106AE01D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>PixelBufferWindow</RootNamespace>
-    <ProjectName>Mesh Loader</ProjectName>
+    <ProjectName>ModelView</ProjectName>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
