@@ -155,7 +155,7 @@ namespace example
 
         for (size_t index = 0, number_of_vertices = transformed_vertices.size (); index < number_of_vertices; index++)
         {
-            display_vertices[index] = Point4i( transformation * transformed_vertices[index] );            
+            display_vertices[index] = Point4i( transformation * transformed_vertices[index] );
         }       
 
         // Se borra el framebúffer y se dibujan los triángulos:

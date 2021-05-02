@@ -5,6 +5,8 @@
 
 #include <View.hpp>
 #include <SFML/Window.hpp>
+#include <string>
+#include <Model.hpp>
 
 using namespace sf;
 using namespace example;
@@ -20,7 +22,6 @@ int main ()
     View   view  (window_width, window_height);
 
     window.setVerticalSyncEnabled (true);
-
     // Run the main loop:
 
     bool exit = false;
