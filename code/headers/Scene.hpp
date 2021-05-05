@@ -24,7 +24,7 @@ namespace example
 
     public:
 
-        Scene(unsigned width, unsigned height, std::string name);
+        Scene(unsigned width, unsigned height, std::string name, Vector3f ligth);
 
         void update_game();
 

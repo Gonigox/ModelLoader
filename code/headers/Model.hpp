@@ -16,11 +16,20 @@ namespace example
     {
     public:
 
-        Transform_component   transform_component;
+        Transform_component          transform_component;
+        Matrix44                     mtransformation;
 
         std::string                  model_file_path;
         vector< shared_ptr< Mesh > > mesh_list;
 
         Model(std::string model_path);
+
+    public:
+
+        virtual void update();
+
+    private:
+
+        float rand_clamp   () { return float(rand () & 0xff) * 0.0039215f; }
     };
 }

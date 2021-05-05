@@ -12,10 +12,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\code\sources\main.cpp" />
+    <ClCompile Include="..\..\code\sources\Mesh.cpp" />
     <ClCompile Include="..\..\code\sources\Model.cpp" />
     <ClCompile Include="..\..\code\sources\Render_Task.cpp" />
     <ClCompile Include="..\..\code\sources\Scene.cpp" />
-    <ClCompile Include="..\..\code\sources\View.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\code\headers\internal\Color.hpp" />
@@ -26,7 +26,6 @@
     <ClInclude Include="..\..\code\headers\Rasterizer.hpp" />
     <ClInclude Include="..\..\code\headers\Render_Task.hpp" />
     <ClInclude Include="..\..\code\headers\Scene.hpp" />
-    <ClInclude Include="..\..\code\headers\View.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{636EB426-ECAF-4E3F-ACE9-9DF1106AE01D}</ProjectGuid>

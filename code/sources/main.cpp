@@ -3,45 +3,28 @@
 // angel.rodriguez@esne.edu
 // 2021.12 - 2021.04
 
-#include <View.hpp>
-#include <SFML/Window.hpp>
 #include <string>
 #include <Model.hpp>
+#include <Scene.hpp>
 
-using namespace sf;
 using namespace example;
+using namespace std;
 
 int main ()
 {
-    // Create the window and the view that will be shown within the window:
-
     constexpr auto window_width  = 800u;
     constexpr auto window_height = 600u;
 
-    Window window(VideoMode(window_width, window_height), "Mesh Loader", Style::Titlebar | Style::Close);
-    View   view  (window_width, window_height);
 
-    window.setVerticalSyncEnabled (true);
-    // Run the main loop:
+    unique_ptr < Scene > scene  = make_unique < Scene > (window_width, window_height, "Mesh_Test", glm::fvec3 (1.f, -1.f, -0.35f));
 
-    bool exit = false;
+    shared_ptr < Model > monkey = make_shared < Model > ("../../Binaries/Assets/monkey.obj");
+    shared_ptr < Model > cube   = make_shared < Model > ("../../Binaries/Assets/cube_test.obj");
 
-    do
-    {
-        Event event;
+    //scene->model_list.push_back(cube);
+    scene->model_list.push_back(monkey);
 
-        while (window.pollEvent (event))
-        {
-            if (event.type == Event::Closed) exit = true;
-        }
-
-        view.update ();
-
-        view.render ();
-
-        window.display ();
-    }
-    while (not exit);
+    scene->start_game();
 
     return 0;
 }

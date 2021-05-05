@@ -11,13 +11,15 @@
 
 namespace example
 {
+    class Model;
     using std::vector;
     using argb::Rgb888;
 
     struct Transform_component
     {
     public:
-        Vector3f transform;
+
+        Vector3f position;
         Vector3f scale;
         Vector3f rotation;
     };
@@ -33,6 +35,7 @@ namespace example
     public:
 
         Transform_component transform_component;
+        Matrix44            mtransformation;
         
         Vertex_Buffer       original_vertices;
         Index_Buffer        original_indices;
@@ -40,5 +43,10 @@ namespace example
         Vertex_Buffer       transformed_vertices;
         vector< Point4i >   display_vertices;
 
+    public:
+
+        Mesh();
+
+        void apply_transform (Model * parent);
     };
 }
