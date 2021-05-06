@@ -18,11 +18,13 @@ int main ()
 
     unique_ptr < Scene > scene  = make_unique < Scene > (window_width, window_height, "Mesh_Test", glm::fvec3 (1.f, -1.f, -0.35f));
 
+    shared_ptr < Model > cube   = make_shared < Model > ("../../Binaries/Assets/low-poly-mill.dae");
     shared_ptr < Model > monkey = make_shared < Model > ("../../Binaries/Assets/monkey.obj");
-    shared_ptr < Model > cube   = make_shared < Model > ("../../Binaries/Assets/cube_test.obj");
+    
+    
 
     //scene->model_list.push_back(cube);
-    scene->model_list.push_back(monkey);
+    scene->model_list.push_back(cube);
 
     scene->start_game();
 

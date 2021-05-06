@@ -12,7 +12,12 @@ namespace example
 
     void Mesh::apply_transform(Model * parent)
     {
-        mtransformation = Matrix44 (1);
+        /*static float angle = 0.f;
+
+        angle += 0.025f;
+        transform_component.rotation = Vector3f{0.f, 0.f, angle};*/
+
+        mtransformation = Matrix44(1);//m_original_transform;
 
         mtransformation = translate (mtransformation, transform_component.position);
 

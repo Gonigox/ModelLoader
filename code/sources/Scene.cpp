@@ -12,9 +12,19 @@ namespace example
 
     void Scene::update_game()
     {
+        static float angle_mesh  = 0.f;
+        static float angle_model = 0.f;
+        angle_mesh  += 0.05f;
+        angle_model += 0.01f;
+
+        model_list[0]->mesh_list[0]->transform_component.rotation = Vector3f{0.f,0.f,  angle_mesh};
+        model_list[0]->mesh_list[1]->transform_component.rotation = Vector3f{0.f, 0.f, angle_mesh};
+
+        model_list[0]->transform_component.rotation = Vector3f{0.f, angle_model, 0.f};
+        
         for(size_t i = 0; i < model_list.size(); ++i)
         {
-            model_list[i].get()->update();
+            model_list[i]->update();
         }
     }
 
