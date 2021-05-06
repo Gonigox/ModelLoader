@@ -7,7 +7,7 @@
 #include <vector>
 #include <math.hpp>
 #include <Color.hpp>
-
+#include <string>
 
 namespace example
 {
@@ -34,6 +34,8 @@ namespace example
 
     public:
 
+        std::string         mesh_name;
+
         Transform_component transform_component;
         Matrix44            mtransformation;
         
@@ -45,7 +47,7 @@ namespace example
 
     public:
 
-        Mesh();
+        Mesh(const char * name);
 
         void apply_transform (Model * parent);
     };

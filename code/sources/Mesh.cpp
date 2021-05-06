@@ -3,11 +3,11 @@
 
 namespace example
 {
-    Mesh::Mesh()
+    Mesh::Mesh(const char * name)
+    :
+        mesh_name (name)
     {
-        transform_component.position = Vector3f{ 0.f, 0.f, 0.f };
-        transform_component.rotation = Vector3f{ 0.f, 0.f, 0.f };
-        transform_component.scale    = Vector3f{ 1.f, 1.f, 1.f };
+        
     }
 
     void Mesh::apply_transform(Model * parent)

@@ -5,7 +5,6 @@
 
 #pragma once
 #include <Mesh.hpp>
-#include <string>
 #include <memory>
 
 namespace example
