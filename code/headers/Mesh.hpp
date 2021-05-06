@@ -35,7 +35,6 @@ namespace example
     public:
 
         Transform_component transform_component;
-        Matrix44            m_original_transform;
         Matrix44            mtransformation;
         
         Vertex_Buffer       original_vertices;

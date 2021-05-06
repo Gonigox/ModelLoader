@@ -37,18 +37,27 @@ namespace example
 
                 if(node->mNumMeshes > 0)
                 {
-                    for(unsigned int index = 0; index < node->mNumMeshes; ++index)
-                    {                    
-                        auto imported_mesh = scene->mMeshes[node->mMeshes[index]];
-                        shared_ptr< Mesh > mesh = std::make_shared< Mesh >();
+                    shared_ptr< Mesh > mesh = std::make_shared< Mesh >();
 
-                        size_t number_of_vertices = imported_mesh->mNumVertices;
+                    size_t number_of_vertices  = 0;
+                    size_t number_of_triangles = 0;
+
+                    for(unsigned int index = 0; index < node->mNumMeshes; ++index)
+                    { 
+                        auto imported_mesh = scene->mMeshes[node->mMeshes[index]];
+
+                        number_of_vertices += imported_mesh->mNumVertices; 
 
                         mesh->original_vertices.resize(number_of_vertices);
 
-                        for(size_t index = 0; index < number_of_vertices; ++index)
+                        for
+                        (
+                            size_t index = number_of_vertices - imported_mesh->mNumVertices, v_index = 0; 
+                            index < number_of_vertices; 
+                            ++index , ++v_index
+                        )
                         {
-                            auto & vertex = imported_mesh->mVertices[index];
+                            auto & vertex = imported_mesh->mVertices[v_index];
 
                             mesh->original_vertices[index] = Point4f(vertex.x, -vertex.y, vertex.z, 1.f);
                         }
@@ -58,18 +67,26 @@ namespace example
 
                         mesh->original_colors.resize (number_of_vertices);
 
-                        for(size_t index = 0; index < number_of_vertices; ++index)
+                        for
+                        (
+                            size_t index = number_of_vertices - imported_mesh->mNumVertices; 
+                            index < number_of_vertices; 
+                            ++index
+                        )
                         {
                             mesh->original_colors[index].set (1.f, 1.f, 1.f);//rand_clamp(), rand_clamp(), rand_clamp());
                         }
 
-                        size_t number_of_triangles = imported_mesh->mNumFaces;
+                        number_of_triangles += imported_mesh->mNumFaces;
 
                         mesh->original_indices.resize (number_of_triangles * 3);
 
                         auto indices_iterator = mesh->original_indices.begin ();
+                        indices_iterator     += (number_of_triangles * 3) - (imported_mesh->mNumFaces * 3);
 
-                        for (size_t index = 0; index < number_of_triangles; index++)
+                        int indices_offset = number_of_vertices - imported_mesh->mNumVertices;
+
+                        for (size_t index = 0; index < imported_mesh->mNumFaces; index++)
                         {
                             auto & face = imported_mesh->mFaces[index];
 
@@ -77,9 +94,9 @@ namespace example
                                                                         // pero nos interesa que solo haya triángulos
                             auto indices = face.mIndices;
 
-                            *indices_iterator++ = int(indices[0]);
-                            *indices_iterator++ = int(indices[1]);
-                            *indices_iterator++ = int(indices[2]);
+                            *indices_iterator++ = int(indices[0]) + indices_offset;
+                            *indices_iterator++ = int(indices[1]) + indices_offset;
+                            *indices_iterator++ = int(indices[2]) + indices_offset;
                         }
 
                         /*mTransformation = node->mTransformation;
@@ -92,14 +109,15 @@ namespace example
                             mTransformation.d1, mTransformation.d2, mTransformation.d3, mTransformation.d4
                         );*/
 
-                        node->mTransformation.Decompose(scale, rotation, position);
-
-                        mesh->transform_component.position = Vector3f {position.x, -position.y, position.z};
-                        mesh->transform_component.rotation = Vector3f {rotation.x,  rotation.y, rotation.z};
-                        mesh->transform_component.scale    = Vector3f {   scale.x,     scale.y,    scale.z};
-
-                        mesh_list.push_back(mesh);
+                        
                     }
+
+                    node->mTransformation.Decompose(scale, rotation, position);
+                    mesh->transform_component.position = Vector3f {position.x, -position.y, position.z};
+                    mesh->transform_component.rotation = Vector3f {rotation.x,  rotation.y, rotation.z};
+                    mesh->transform_component.scale    = Vector3f {   scale.x,     scale.y,    scale.z};
+
+                    mesh_list.push_back(mesh);
                 }
             }
         }
