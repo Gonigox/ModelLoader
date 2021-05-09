@@ -5,9 +5,9 @@
 
 #pragma once
 #include <vector>
-#include <math.hpp>
 #include <Color.hpp>
 #include <string>
+#include <Transform_component.hpp>
 
 namespace example
 {
@@ -15,14 +15,7 @@ namespace example
     using std::vector;
     using argb::Rgb888;
 
-    struct Transform_component
-    {
-    public:
-
-        Vector3f position;
-        Vector3f scale;
-        Vector3f rotation;
-    };
+    
 
     class Mesh
     {

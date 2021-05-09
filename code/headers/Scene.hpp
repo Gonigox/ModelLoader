@@ -7,6 +7,7 @@
 #include <Render_Task.hpp>
 #include <Model.hpp>
 #include <SFML/Window.hpp>
+#include <Camera.hpp>
 
 namespace example
 {
@@ -20,6 +21,7 @@ namespace example
     public:
 
         Vector3f                      Ligth;
+        Camera                        camera;
         vector< shared_ptr< Model > > model_list;
 
     public:
