@@ -18,9 +18,9 @@ namespace example
         angle_mesh  += 0.05f;
         angle_model += 0.01f;
 
-        //model_list[0]->mesh_list[0]->transform_component.rotation = Vector3f{0.f,0.f,  angle_mesh};
+        model_list[0]->mesh_list[0]->transform_component.rotation = Vector3f{0.f,0.f,  angle_mesh};
 
-        //model_list[0]->transform_component.rotation = Vector3f{0.f, angle_model, 0.f};
+        model_list[0]->transform_component.rotation = Vector3f{0.f, angle_model, 0.f};
         
         for(size_t i = 0; i < model_list.size(); ++i)
         {

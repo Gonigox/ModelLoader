@@ -8,7 +8,7 @@ namespace example
 {
     Model::Model(std::string model_path)
     {
-        transform_component.position = Vector3f{ 0.f, -15.f,  -10.f };
+        transform_component.position = Vector3f{ 0.f, 0.f,  -10.f };
         transform_component.rotation = Vector3f{ 0.f, 0.f ,   0.f };
         transform_component.scale    = Vector3f{ 4.f, 4.f ,   4.f };
 

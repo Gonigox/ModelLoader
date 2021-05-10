@@ -273,13 +273,30 @@ namespace example
             Point4i aux_clipped_vertices[10];
             int     aux_index [10] = {0,1,2,3,4,5,6,7,8,9};
             
-            new_vertices_count = clip_polygon_side (input_vertices, first, last, clipped_vertices, Point4i{0,0,0,0}, Point4i{viewport_width,0,0,0}, new_vertices_count);
-            std::copy(clipped_vertices, clipped_vertices + new_vertices_count, aux_clipped_vertices);
-            new_vertices_count = clip_polygon_side (clipped_vertices, aux_index,  aux_index + new_vertices_count, aux_clipped_vertices, Point4i{viewport_width,0,0,0}, Point4i{viewport_width,viewport_height,0,0}, new_vertices_count);
-            std::copy(clipped_vertices, clipped_vertices + new_vertices_count, aux_clipped_vertices);
-            new_vertices_count = clip_polygon_side (clipped_vertices, aux_index,  aux_index + new_vertices_count, aux_clipped_vertices, Point4i{0,viewport_height,0,0}, Point4i{viewport_width,viewport_height,0,0}, new_vertices_count);
-            std::copy(clipped_vertices, clipped_vertices + new_vertices_count, aux_clipped_vertices);
-            new_vertices_count = clip_polygon_side (clipped_vertices, aux_index,  aux_index + new_vertices_count, aux_clipped_vertices, Point4i{0,0,0,0}, Point4i{0,viewport_height,0,0}, new_vertices_count);
+            // Clip up side
+            new_vertices_count = clip_polygon_side 
+                                 (
+                                     input_vertices, first, last, aux_clipped_vertices, 
+                                     Point4i{0,0,0,0}, Point4i{viewport_width,0,0,0}
+                                 );
+            // Clip rigth side
+            new_vertices_count = clip_polygon_side 
+                                 (
+                                     aux_clipped_vertices, aux_index,  aux_index + new_vertices_count, clipped_vertices, 
+                                     Point4i{viewport_width,0,0,0}, Point4i{viewport_width,viewport_height,0,0}
+                                 );
+            // Clip down side
+            new_vertices_count = clip_polygon_side 
+                                 (
+                                     clipped_vertices, aux_index,  aux_index + new_vertices_count, aux_clipped_vertices,
+                                     Point4i{viewport_width,viewport_height,0,0}, Point4i{0,viewport_height,0,0}
+                                 );
+            // Clip left side
+            new_vertices_count = clip_polygon_side 
+                                 (
+                                     aux_clipped_vertices, aux_index,  aux_index + new_vertices_count, clipped_vertices, 
+                                     Point4i{0,viewport_height,0,0}, Point4i{0,0,0,0}
+                                 );
 
             return new_vertices_count;
         }
@@ -294,113 +311,73 @@ namespace example
         const int     * const last,
               Point4i *       clipped_vertices,
               Point4i         clip_line_origin,
-              Point4i         clip_line_end,
-              int             vertices_count
+              Point4i         clip_line_end
     )
     {
-
+        int vertices_count = 0;
         for(const int * index = first, * next = index + 1; index < last; ++index, ++next)
         { 
-            Point4i intersection_point;
-
             if(next >= last)
             {
                 next = first;
             }
 
-            if
-            ( 
-                doIntersect (input_vertices[*index], input_vertices[*next], clip_line_origin, clip_line_end )
-            )
+            int first_point_position = 
+                (clip_line_end.x - clip_line_origin.x) * (input_vertices[*index].y - clip_line_origin.y) - 
+                (clip_line_end.y - clip_line_origin.y) * (input_vertices[*index].x - clip_line_origin.x);
+
+            int second_point_position = 
+                (clip_line_end.x - clip_line_origin.x) * (input_vertices[*next].y - clip_line_origin.y) - 
+                (clip_line_end.y - clip_line_origin.y) * (input_vertices[*next].x - clip_line_origin.x);
+
+            // Case 1: When both points are inside
+            if (first_point_position > 0 && second_point_position > 0)
             {
-                if
-                (                
-                    lineLineIntersection
-                    (
-                        input_vertices[*index], 
-                        input_vertices[*next], 
-                        clip_line_origin, 
-                        clip_line_end, 
-                        intersection_point
-                    )
-                )
-                {
-                    clipped_vertices[vertices_count] = intersection_point;
-                    ++vertices_count;
-
-                    if 
-                    (
-                        input_vertices[*next].x > 0      && 
-                        input_vertices[*next].x < width  && 
-                        input_vertices[*next].y > 0      && 
-                        input_vertices[*next].y < height
-                    )
-                    {
-                        auto a = input_vertices[*next];
-                        clipped_vertices[vertices_count] = input_vertices[*next];
-                        ++vertices_count;
-                    }
-                }
-
+                // Only second point is added
+                clipped_vertices[vertices_count] = input_vertices[*next];
+                ++vertices_count;
             }
+            // Case 2: When only first point is outside
             else 
+            if (first_point_position <= 0 && second_point_position > 0)
             {
-                if 
-                (
-                    input_vertices[*index].x > 0      && 
-                    input_vertices[*index].x < width  && 
-                    input_vertices[*index].y > 0      && 
-                    input_vertices[*index].y < height
-                )
-                { 
-                    bool save = true;
-                    for(const int * i = first, * end = i + vertices_count; i < end; ++i)
-                    {
-                        if(input_vertices[*index] == clipped_vertices[*i])
-                        {
-                            save = false;
-                        }
-                    }
-                    if(save)
-                    {
-                        auto a = input_vertices[*index];
-                        clipped_vertices[vertices_count] = input_vertices[*index];
-                        ++vertices_count; 
-                    }
-                    
-                }                
+                // Point of intersection with the edge
+                // and the second point are added
+                clipped_vertices[vertices_count] = lineLineIntersection
+                                                   (
+                                                       input_vertices[*index], input_vertices[*next], 
+                                                       clip_line_origin, clip_line_end
+                                                   );
+                ++vertices_count;
 
-                if 
-                (
-                    input_vertices[*next].x > 0      && 
-                    input_vertices[*next].x < width  && 
-                    input_vertices[*next].y > 0      && 
-                    input_vertices[*next].y < height
-                )
-                {
-                    bool save = true;
-                    for(const int * i = first, * end = i + vertices_count; i < end; ++i)
-                    {
-                        if(input_vertices[*next] == clipped_vertices[*i])
-                        {
-                            save = false;
-                        }
-                    }
-                    if(save)
-                    {
-                        auto a = input_vertices[*next];
-                        clipped_vertices[vertices_count] = input_vertices[*next];
-                        ++vertices_count; 
-                    }
-                }                    
+                clipped_vertices[vertices_count] = input_vertices[*next];
+                ++vertices_count;
             }
-            
+            // Case 3: When only second point is outside
+            else
+            if (first_point_position > 0 && second_point_position <= 0)
+            {
+                // Only point of intersection with the edge is added
+                clipped_vertices[vertices_count] = lineLineIntersection
+                                                   (
+                                                       input_vertices[*index], input_vertices[*next], 
+                                                       clip_line_origin, clip_line_end
+                                                   );
+                ++vertices_count;
+            }
+            // Case 4: when both points are outside
+            else
+            {
+                // No points are added
+            }
+
         }
+
 
         return vertices_count;
     }
 
-    bool Render_Task::lineLineIntersection(Point4i A, Point4i B, Point3i C, Point3i D, Point4i & intersection)
+    Point4i Render_Task::lineLineIntersection(Point4i A, Point4i B, Point3i C, Point3i D)
     {
         // Line AB represented as a1x + b1y = c1
         double a1 = B.y - A.y;
@@ -416,74 +393,15 @@ namespace example
       
         if (determinant == 0)
         {
-            // The lines are parallel. This is simplified
-            // by returning a pair of FLT_MAX
-            return false;
+            // The lines are parallel
+            return Point4i {0, 0, 0, 1};
         }
         else
         {
             double x = (b2 * c1 - b1 * c2) / determinant;
             double y = (a1 * c2 - a2 * c1) / determinant;
 
-            intersection = Point4i {x, y, 0, 1};
-
-            return true;
+            return Point4i {x, y, 0, 1};
         }
     }
-
-    bool Render_Task::onSegment(Point4i p,Point4i q,Point4i r)
-    {
-        if 
-        (
-            q.x <= std::max(p.x, r.x) && q.x >= std::min(p.x, r.x) &&
-            q.y <= std::max(p.y, r.y) && q.y >= std::min(p.y, r.y)
-        )
-        {
-            return true;
-        }
-  
-        return false;
-    }
-
-    int Render_Task::orientation(Point4i p,Point4i q,Point4i r)
-    {
-        // See https://www.geeksforgeeks.org/orientation-3-ordered-points/
-        // for details of below formula.
-        int val = (q.y - p.y) * (r.x - q.x) -
-                  (q.x - p.x) * (r.y - q.y);
-  
-        if (val == 0) return 0;  // colinear
-  
-        return (val > 0)? 1: 2; // clock or counterclock wise
-    }
-
-    bool Render_Task::doIntersect(Point4i p1,Point4i q1,Point4i p2,Point4i q2)
-    {
-        // Find the four orientations needed for general and
-        // special cases
-        int o1 = orientation(p1, q1, p2);
-        int o2 = orientation(p1, q1, q2);
-        int o3 = orientation(p2, q2, p1);
-        int o4 = orientation(p2, q2, q1);
-  
-        // General case
-        if (o1 != o2 && o3 != o4)
-            return true;
-  
-        // Special Cases
-        // p1, q1 and p2 are colinear and p2 lies on segment p1q1
-        if (o1 == 0 && onSegment(p1, p2, q1)) return true;
-  
-        // p1, q1 and q2 are colinear and q2 lies on segment p1q1
-        if (o2 == 0 && onSegment(p1, q2, q1)) return true;
-  
-        // p2, q2 and p1 are colinear and p1 lies on segment p2q2
-        if (o3 == 0 && onSegment(p2, p1, q2)) return true;
-  
-         // p2, q2 and q1 are colinear and q1 lies on segment p2q2
-        if (o4 == 0 && onSegment(p2, q1, q2)) return true;
-  
-        return false; // Doesn't fall in any of the above cases
-    }
-  
 }
