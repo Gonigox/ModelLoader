@@ -96,40 +96,47 @@ namespace example
                             // Se calcula el color del triangulo iluminado a partir del primer vertice del mismo
 
                             Color triangle_color = calculate_light
-                                (
-                                    mesh->transformed_vertices.data(), 
-                                    mesh->original_colors.data(), 
-                                    scene->Ligth, 
-                                    indices
-                                );
+                                                   (
+                                                       mesh->transformed_vertices.data(), 
+                                                       mesh->original_colors.data(), 
+                                                       scene->Ligth, 
+                                                       indices
+                                                   );
                             
                             // Se establece el color del polígono
 
                             rasterizer.set_color (triangle_color);
 
-                            // Recorte de triangulos? We'll see
+                            // Recorte de triangulos
+
                             Point4i clipped_vertices[10];
                             int     clipped_indices [10] = {0,1,2,3,4,5,6,7,8,9};
 
                             int new_vertices_count = clip_polygon
-                                (
-                                    mesh->display_vertices.data (), 
-                                    indices, 
-                                    indices + 3, 
-                                    clipped_vertices, 
-                                    width, 
-                                    height
-                                );
+                                                     (
+                                                         mesh->display_vertices.data (), 
+                                                         indices, 
+                                                         indices + 3, 
+                                                         clipped_vertices, 
+                                                         width, 
+                                                         height
+                                                     );
 
                             if(new_vertices_count > 0)
                             { 
                                 int * indices = clipped_indices;
-                                rasterizer.fill_convex_polygon_z_buffer (clipped_vertices, indices, indices + new_vertices_count);
+                                rasterizer.fill_convex_polygon_z_buffer 
+                                           (
+                                               clipped_vertices, indices, indices + new_vertices_count
+                                           );
                             }
                             // Se rellena el polígono:
                             else
                             {
-                                rasterizer.fill_convex_polygon_z_buffer (mesh->display_vertices.data (), indices, indices + 3);
+                                rasterizer.fill_convex_polygon_z_buffer 
+                                           (
+                                               mesh->display_vertices.data (), indices, indices + 3
+                                           );
                             }
                         }
                     }
@@ -377,19 +384,19 @@ namespace example
         return vertices_count;
     }
 
-    Point4i Render_Task::lineLineIntersection(Point4i A, Point4i B, Point3i C, Point3i D)
+    Point4i Render_Task::lineLineIntersection(const Point4i & A, const Point4i & B, const Point3i & C, const Point3i & D)
     {
         // Line AB represented as a1x + b1y = c1
-        double a1 = B.y - A.y;
-        double b1 = A.x - B.x;
-        double c1 = a1 * (A.x) + b1 * (A.y);
+        int a1 = B.y - A.y;
+        int b1 = A.x - B.x;
+        int c1 = a1 * (A.x) + b1 * (A.y);
       
         // Line CD represented as a2x + b2y = c2
-        double a2 = D.y - C.y;
-        double b2 = C.x - D.x;
-        double c2 = a2 * (C.x) + b2 * (C.y);
+        int a2 = D.y - C.y;
+        int b2 = C.x - D.x;
+        int c2 = a2 * (C.x) + b2 * (C.y);
       
-        double determinant = a1 * b2 - a2 * b1;
+        int determinant = a1 * b2 - a2 * b1;
       
         if (determinant == 0)
         {
@@ -398,8 +405,8 @@ namespace example
         }
         else
         {
-            double x = (b2 * c1 - b1 * c2) / determinant;
-            double y = (a1 * c2 - a2 * c1) / determinant;
+            int x = (b2 * c1 - b1 * c2) / determinant;
+            int y = (a1 * c2 - a2 * c1) / determinant;
 
             return Point4i {x, y, 0, 1};
         }

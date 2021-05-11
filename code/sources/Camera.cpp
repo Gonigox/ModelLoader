@@ -36,28 +36,23 @@ namespace example
         transform_component.rotation = new_rotation;
     }
 
-    void Camera::set_scale(Vector3f new_scale)
-    {
-        transform_component.scale = new_scale;
-    }
-
     void Camera::move_camera (Vector3f speed)
     {
         transform_component.position += speed;
     }
 
-    void Camera::rotate_around(Vector3f origin, float angle, float radius)
-    {
-        
-        transform_component.position = Vector3f {
-                                                    transform_component.position.x,
-                                                    angle,
-                                                    transform_component.position.z
-                                                };
+    //void Camera::rotate_around(Vector3f origin, float angle, float radius)
+    //{
+    //    
+    //    transform_component.position = Vector3f {
+    //                                                transform_component.position.x,
+    //                                                angle,
+    //                                                transform_component.position.z
+    //                                            };
 
-        mtransformation = glm::lookAt(transform_component.position, origin, Vector3f{ 0.f, 1.f, 0.f });
-        calculate_mtransformation();
+    //    mtransformation = glm::lookAt(transform_component.position, origin, Vector3f{ 0.f, 1.f, 0.f });
+    //    calculate_mtransformation();
 
-        //transform_component.rotation = Vector3f {0.f, angle, 0.f};
-    }
+    //    //transform_component.rotation = Vector3f {0.f, angle, 0.f};
+    //}
 }

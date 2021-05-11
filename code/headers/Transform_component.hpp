@@ -8,6 +8,10 @@
 
 namespace example
 {
+    /// <summary>
+    /// Struct containinf 3 vectors representing the rotation, positiona and scale
+    /// Rotation is stored in radians
+    /// </summary>
     struct Transform_component
     {
     public:

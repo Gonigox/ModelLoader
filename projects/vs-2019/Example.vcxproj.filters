@@ -38,12 +38,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\code\headers\math.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\headers\Rasterizer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\code\headers\internal\Color.hpp">
       <Filter>Header Files\internal</Filter>
     </ClInclude>
@@ -67,6 +61,12 @@
     </ClInclude>
     <ClInclude Include="..\..\code\headers\Transform_component.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\headers\internal\math.hpp">
+      <Filter>Header Files\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\headers\internal\Rasterizer.hpp">
+      <Filter>Header Files\internal</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
