@@ -7,7 +7,7 @@
 #include <Transform_component.hpp>
 
 
-namespace example
+namespace model_view
 {
 
     /// <summary>

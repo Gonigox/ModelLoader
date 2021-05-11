@@ -1,6 +1,6 @@
 #include <Camera.hpp>
 
-namespace example
+namespace model_view
 {
     Camera::Camera()
     :

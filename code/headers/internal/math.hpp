@@ -11,7 +11,7 @@
     #include <glm/gtx/matrix_decompose.hpp>
     #include <glm/gtc/matrix_transform.hpp>
 
-    namespace example
+    namespace model_view
     {
 
         typedef glm::ivec2 Vector2i;

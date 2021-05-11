@@ -1,7 +1,7 @@
 #include <Mesh.hpp>
 #include <Model.hpp>
 
-namespace example
+namespace model_view
 {
     Mesh::Mesh(const char * name)
     :

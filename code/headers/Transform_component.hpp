@@ -6,7 +6,7 @@
 #pragma once
 #include <math.hpp>
 
-namespace example
+namespace model_view
 {
     /// <summary>
     /// Struct containinf 3 vectors representing the rotation, positiona and scale

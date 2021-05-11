@@ -9,7 +9,7 @@
 #include <SFML/Window.hpp>
 #include <Camera.hpp>
 
-namespace example
+namespace model_view
 {
     /// <summary>
     /// Class Scene, creates the window of SFML, stores the camera the ligth and a vector containing the models

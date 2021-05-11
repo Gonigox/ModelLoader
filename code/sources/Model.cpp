@@ -4,7 +4,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-namespace example
+namespace model_view
 {
     Model::Model(std::string model_path)
     {

@@ -9,7 +9,7 @@
 #include <string>
 #include <Transform_component.hpp>
 
-namespace example
+namespace model_view
 {
     class Model;
     using std::vector;

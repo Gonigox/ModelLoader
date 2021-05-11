@@ -1,6 +1,6 @@
 #include <Scene.hpp>
 
-namespace example
+namespace model_view
 {
     Scene::Scene (unsigned width, unsigned height, std::string name, Vector3f ligth)
     :

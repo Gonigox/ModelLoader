@@ -13,7 +13,7 @@
     #include <math.hpp>
     #include <vector>
 
-    namespace example
+    namespace model_view
     {
 
         template< class COLOR_BUFFER_TYPE >

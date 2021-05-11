@@ -7,7 +7,7 @@
 #include <Model.hpp>
 #include <Scene.hpp>
 
-using namespace example;
+using namespace model_view;
 using namespace std;
 
 int main ()

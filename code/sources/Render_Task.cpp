@@ -1,7 +1,7 @@
 #include <Render_Task.hpp>
 #include <Scene.hpp>
 
-namespace example
+namespace model_view
 {
     Render_Task::Render_Task(unsigned width, unsigned height, std::string name, Scene * scene)
     :

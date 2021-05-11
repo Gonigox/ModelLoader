@@ -7,7 +7,7 @@
 #include <Mesh.hpp>
 #include <memory>
 
-namespace example
+namespace model_view
 {
     using std::shared_ptr;
 

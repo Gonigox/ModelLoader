@@ -9,7 +9,7 @@
 #include <string>
 #include <math.hpp>
 
-namespace example
+namespace model_view
 {
     using argb::Rgb888;
     using argb::Color_Buffer;
